@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harish S — SOC Analyst Portfolio</title>
+<style>
+  :root{
+    --bg:#0a0e0c;
+    --bg-panel:#0f1512;
+    --line:#1c2722;
+    --green:#39ff8f;
+    --green-dim:#1e8a52;
+    --amber:#ffb454;
+    --text:#cfd8d2;
+    --text-dim:#7c8a82;
+    --mono: "JetBrains Mono","Fira Code",Consolas,monospace;
+    --sans: "IBM Plex Sans","Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--green-dim);color:#02140a;}
+
+  /* scanline / grid atmosphere */
+  body::before{
+    content:"";
+    position:fixed;inset:0;
+    background-image:
+      linear-gradient(rgba(57,255,143,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(57,255,143,0.025) 1px, transparent 1px);
+    background-size:42px 42px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  a{color:var(--green);text-decoration:none;}
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,14,12,0.88);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;justify-content:space-between;align-items:center;height:58px;}
+  .brand{font-family:var(--mono);color:var(--green);font-size:14px;letter-spacing:0.5px;}
+  .brand .blink{animation:blink 1.2s steps(2) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .navlinks{display:flex;gap:22px;font-family:var(--mono);font-size:13px;}
+  .navlinks a{color:var(--text-dim);}
+  .navlinks a:hover{color:var(--green);}
+  @media(max-width:640px){.navlinks{display:none;}}
+  .btn-nav-resume{
+    border:1px solid var(--green-dim);color:var(--green) !important;
+    padding:5px 12px;border-radius:3px;transition:all .15s ease;
+  }
+  .btn-nav-resume:hover{background:var(--green);color:#02140a !important;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    padding:90px 0 70px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+  }
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;color:var(--green);
+    letter-spacing:2px;text-transform:uppercase;
+    display:flex;align-items:center;gap:10px;margin-bottom:22px;
+  }
+  .eyebrow::before{content:"●";color:var(--green);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.25;}}
+  h1{
+    font-family:var(--mono);
+    font-size:clamp(34px,6vw,58px);
+    font-weight:700;color:#eafff2;
+    line-height:1.1;letter-spacing:-1px;
+  }
+  h1 span{color:var(--green);}
+  .role-line{
+    font-family:var(--mono);font-size:clamp(15px,2.2vw,19px);
+    color:var(--text-dim);margin-top:14px;
+  }
+  .role-line .cursor{display:inline-block;width:9px;height:18px;background:var(--green);margin-left:4px;vertical-align:-3px;animation:blink 1s steps(2) infinite;}
+  .hero-desc{max-width:620px;margin-top:24px;color:var(--text-dim);font-size:15px;}
+  .hero-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;padding:11px 20px;
+    border:1px solid var(--green-dim);color:var(--green);
+    transition:all .15s ease;
+  }
+  .btn:hover{background:var(--green);color:#02140a;}
+  .btn.ghost{border-color:var(--line);color:var(--text-dim);}
+  .btn.ghost:hover{border-color:var(--text-dim);color:var(--text);background:transparent;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:72px 0;border-bottom:1px solid var(--line);}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:38px;}
+  .sec-num{font-family:var(--mono);color:var(--green-dim);font-size:13px;}
+  .sec-title{font-family:var(--mono);font-size:22px;color:#eafff2;letter-spacing:0.5px;}
+  .sec-title::after{content:"";display:block;width:40px;height:2px;background:var(--green);margin-top:10px;}
+
+  /* ---------- TERMINAL "ABOUT" BLOCK ---------- */
+  .terminal{
+    background:var(--bg-panel);border:1px solid var(--line);
+    border-radius:6px;overflow:hidden;
+  }
+  .term-bar{
+    background:#10171350;padding:9px 14px;display:flex;gap:8px;
+    border-bottom:1px solid var(--line);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#ff5f56;}.dot.y{background:#ffbd2e;}.dot.g{background:#27c93f;}
+  .term-body{padding:22px 24px;font-family:var(--mono);font-size:13.5px;color:var(--text);}
+  .term-body .ln{margin-bottom:6px;}
+  .prompt{color:var(--green);}
+  .keyval{color:var(--amber);}
+
+  /* ---------- SKILLS GRID ---------- */
+  .skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+  .skill-card{background:var(--bg-panel);padding:20px;}
+  .skill-card h4{font-family:var(--mono);font-size:13px;color:var(--green);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;}
+  .skill-card p{font-size:13px;color:var(--text-dim);line-height:1.7;}
+
+  /* ---------- TECH STACK (tools) ---------- */
+  .stack-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);}
+  .stack-card{background:var(--bg-panel);padding:20px;}
+  .stack-card h4{font-family:var(--mono);font-size:12px;color:var(--amber);margin-bottom:12px;letter-spacing:1px;text-transform:uppercase;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{
+    font-family:var(--mono);font-size:11.5px;padding:5px 10px;
+    border:1px solid var(--line);background:#0d1411;color:var(--text);
+    border-radius:3px;
+  }
+
+  /* ---------- CERTS ---------- */
+  .cert-list{display:flex;flex-direction:column;border:1px solid var(--line);}
+  .cert-row{
+    display:grid;grid-template-columns:1fr auto auto;gap:16px;
+    padding:14px 18px;border-bottom:1px solid var(--line);
+    font-size:14px;align-items:center;
+  }
+  .cert-row:last-child{border-bottom:none;}
+  .cert-row:hover{background:var(--bg-panel);}
+  .cert-name{color:var(--text);}
+  .cert-issuer{font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+  .cert-date{font-family:var(--mono);font-size:12px;color:var(--green-dim);text-align:right;}
+  @media(max-width:640px){.cert-row{grid-template-columns:1fr;gap:4px;}.cert-date{text-align:left;}}
+
+  /* ---------- PROJECTS ---------- */
+  .project{
+    background:var(--bg-panel);border:1px solid var(--line);
+    margin-bottom:28px;border-radius:6px;overflow:hidden;
+  }
+  .project-head{
+    padding:20px 24px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;
+  }
+  .project-head h3{font-family:var(--mono);font-size:17px;color:#eafff2;}
+  .tag-row{display:flex;gap:8px;flex-wrap:wrap;}
+  .tag{font-family:var(--mono);font-size:11px;padding:4px 9px;border:1px solid var(--green-dim);color:var(--green);border-radius:3px;}
+  .project-body{padding:22px 24px;}
+  .project-body p{font-size:14px;color:var(--text-dim);margin-bottom:14px;}
+  .project-body ul{margin:0 0 16px 18px;font-size:14px;color:var(--text-dim);}
+  .project-body li{margin-bottom:6px;}
+
+  .media-slot{
+    border:1.5px dashed var(--line);
+    background:repeating-linear-gradient(135deg, rgba(57,255,143,0.03) 0 10px, transparent 10px 20px);
+    color:var(--text-dim);
+    font-family:var(--mono);font-size:12px;
+    padding:34px 18px;text-align:center;border-radius:4px;margin:14px 0 20px;
+  }
+  .media-slot .icon{font-size:22px;display:block;margin-bottom:8px;color:var(--green-dim);}
+
+  pre.code{
+    background:#070b09;border:1px solid var(--line);border-radius:4px;
+    padding:16px;overflow-x:auto;font-family:var(--mono);font-size:12px;
+    color:#9fe6bc;margin:14px 0 18px;
+  }
+  pre.code .cmt{color:var(--text-dim);}
+  pre.code .str{color:var(--amber);}
+  pre.code .kw{color:#7fd1ff;}
+
+  .rule-box{
+    background:#070b09;border:1px solid var(--line);border-radius:4px;
+    padding:16px;font-family:var(--mono);font-size:12px;color:#9fe6bc;
+    overflow-x:auto;margin:10px 0 18px;
+  }
+  .rule-box .tag-x{color:#7fd1ff;}
+  .rule-box .attr{color:var(--amber);}
+
+  .flow-steps{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 18px;}
+  .flow-steps span{
+    font-family:var(--mono);font-size:12px;background:#0d1411;
+    border:1px solid var(--line);padding:8px 12px;border-radius:4px;color:var(--text);
+  }
+  .flow-steps .arrow{color:var(--green-dim);align-self:center;}
+
+  .checklist{list-style:none;margin:0 0 18px;}
+  .checklist li{font-size:13.5px;color:var(--text);margin-bottom:8px;padding-left:22px;position:relative;}
+  .checklist li::before{content:"✔";color:var(--green);position:absolute;left:0;}
+
+  .ai-note{
+    font-family:var(--mono);font-size:12px;color:var(--text-dim);
+    border-left:2px solid var(--green-dim);padding:8px 14px;margin-top:6px;
+  }
+
+  /* ---------- EDUCATION ---------- */
+  .edu-item{display:flex;justify-content:space-between;gap:16px;padding:16px 0;border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .edu-item:last-child{border-bottom:none;}
+  .edu-item .yr{font-family:var(--mono);color:var(--green-dim);font-size:13px;min-width:110px;}
+  .edu-item .what{font-size:14px;color:var(--text);}
+  .edu-item .score{font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;}
+  .contact-card{border:1px solid var(--line);padding:20px;background:var(--bg-panel);}
+  .contact-card .label{font-family:var(--mono);font-size:11px;color:var(--green-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+  .contact-card .value{font-family:var(--mono);font-size:14px;color:var(--text);word-break:break-word;}
+  footer{padding:30px 0;text-align:center;font-family:var(--mono);font-size:12px;color:var(--text-dim);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">harish<span class="green">@</span>soc<span class="blink">_</span></div>
+    <div class="navlinks">
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#stack">tools</a>
+      <a href="#certs">certs</a>
+      <a href="#projects">projects</a>
+      <a href="#education">education</a>
+      <a href="#contact">contact</a>
+      <a href="Harish_Resume_30062026.pdf" download class="btn-nav-resume">resume ↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">status: open to work</div>
+    <h1>HARISH S<br><span>// SOC Analyst</span></h1>
+    <div class="role-line">root@harish:~$ whoami → cybersecurity fresher | networking · SIEM · incident response<span class="cursor"></span></div>
+    <p class="hero-desc">Entry-level cybersecurity professional with a hands-on lab habit — building detection rules,
+    breaking my own home network, and writing up what I learn. Comfortable across networking, Windows/Linux administration,
+    and SOC workflows using Splunk and Wazuh.</p>
+    <div class="hero-cta">
+      <a class="btn" href="Harish_Resume.pdf" download>Download Resume ↓</a>
+      <a class="btn ghost" href="#projects">View Projects</a>
+      <a class="btn ghost" href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">about</span></div>
+    <div class="terminal">
+      <div class="term-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <div class="term-body">
+        <div class="ln"><span class="prompt">$</span> cat profile.txt</div>
+        <div class="ln">name        : <span class="keyval">Harish S</span></div>
+        <div class="ln">focus       : <span class="keyval">SOC Analyst / Cybersecurity Operations</span></div>
+        <div class="ln">strengths   : <span class="keyval">Threat detection, vulnerability assessment, incident response</span></div>
+        <div class="ln">tools       : <span class="keyval">Splunk, Wazuh, Nmap, Wireshark, Metasploit, Burp Suite, Nessus,</span></div>
+        <div class="ln">              <span class="keyval">Netcat, Mandiant IOC Editor, Redline, Cisco Packet Tracer</span></div>
+        <div class="ln">certs       : <span class="keyval">CEH · CCNA · MCSE · Linux Fundamentals · A+ · N+</span></div>
+        <div class="ln">location    : <span class="keyval">India</span></div>
+        <div class="ln"><span class="prompt">$</span> _</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">domain knowledge</span></div>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <h4>Networking</h4>
+        <p>OSI &amp; TCP/IP, Subnetting, OSPF/EIGRP/RIP/BGP, VLANs, ACLs, NAT/PAT, STP, DNS, DHCP, FTP, SMTP, SSH, Cisco ASA 5500.</p>
+      </div>
+      <div class="skill-card">
+        <h4>Windows Server</h4>
+        <p>ADDS, Group Policy (GPOs), DHCP, IIS management, security hardening configurations.</p>
+      </div>
+      <div class="skill-card">
+        <h4>Linux Administration</h4>
+        <p>User &amp; filesystem management, Apache, Nginx, Samba, FTP, SSH, iptables/ufw.</p>
+      </div>
+      <div class="skill-card">
+        <h4>Cybersecurity Operations</h4>
+        <p>CIA Triad, Cyber Kill Chain, MITRE ATT&amp;CK, AAA, IR lifecycle, SOC workflows, OWASP Top 10, malware &amp; phishing fundamentals.</p>
+      </div>
+      <div class="skill-card">
+        <h4>SIEM &amp; Monitoring</h4>
+        <p>Log monitoring and alert tuning in Splunk and Wazuh; custom detection rule authoring.</p>
+      </div>
+      <div class="skill-card">
+        <h4>Vulnerability Assessment</h4>
+        <p>Scanning and enumeration with Nmap, Nessus, OpenVAS, Nikto; manual verification of findings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">technical skills &amp; tools</span></div>
+    <div class="stack-grid">
+      <div class="stack-card">
+        <h4>Networking</h4>
+        <div class="pill-row">
+          <span class="pill">Cisco Packet Tracer</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Server Administration</h4>
+        <div class="pill-row">
+          <span class="pill">Microsoft Windows Server 2019</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Linux Services</h4>
+        <div class="pill-row">
+          <span class="pill">Apache</span><span class="pill">Nginx</span><span class="pill">FTP</span><span class="pill">Samba</span><span class="pill">SSH</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Operating Systems</h4>
+        <div class="pill-row">
+          <span class="pill">Windows 7</span><span class="pill">Windows 8</span><span class="pill">Windows 10</span><span class="pill">Windows 11</span><span class="pill">Kali Linux</span><span class="pill">Ubuntu</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Programming Languages</h4>
+        <div class="pill-row">
+          <span class="pill">Python (basics)</span><span class="pill">Bash (basics)</span><span class="pill">SQL (basics)</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Security Tools</h4>
+        <div class="pill-row">
+          <span class="pill">Nmap</span><span class="pill">Wireshark</span><span class="pill">Metasploit</span><span class="pill">Burp Suite</span><span class="pill">Netcat</span><span class="pill">Nessus</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Threat Hunting Tools</h4>
+        <div class="pill-row">
+          <span class="pill">Mandiant IOC Editor</span><span class="pill">Redline</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Endpoint Security</h4>
+        <div class="pill-row">
+          <span class="pill">EDR/XDR Solutions (familiar)</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>SIEM Tools</h4>
+        <div class="pill-row">
+          <span class="pill">Splunk</span><span class="pill">Wazuh</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <h4>Network Security</h4>
+        <div class="pill-row">
+          <span class="pill">Cisco ASA 5500 Firewall</span><span class="pill">IDS/IPS Concepts</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">certifications</span></div>
+    <div class="cert-list">
+      <div class="cert-row"><span class="cert-name">CEH — Certified Ethical Hacking</span><span class="cert-issuer">Prompt Infotech</span><span class="cert-date">Jul 2025</span></div>
+      <div class="cert-row"><span class="cert-name">MCSE — Microsoft Certified Solution Expert</span><span class="cert-issuer">Prompt Infotech</span><span class="cert-date">Apr 2025</span></div>
+      <div class="cert-row"><span class="cert-name">CCNA — Routing &amp; Switching</span><span class="cert-issuer">Prompt Infotech</span><span class="cert-date">Mar 2025</span></div>
+      <div class="cert-row"><span class="cert-name">Linux Fundamentals</span><span class="cert-issuer">Prompt Infotech</span><span class="cert-date">Jul 2025</span></div>
+      <div class="cert-row"><span class="cert-name">A+ — Basics of Computer Hardware &amp; N+ — Basics of Computer Networking</span><span class="cert-issuer">Prompt Infotech</span><span class="cert-date">Jan 2025</span></div>
+      <div class="cert-row"><span class="cert-name">Web Application Security (Internship)</span><span class="cert-issuer">Skill Horizon Pvt Ltd</span><span class="cert-date">Sep 2025</span></div>
+      <div class="cert-row"><span class="cert-name">SOC Foundations for Beginners</span><span class="cert-issuer">SIEM XPERT · Udemy</span><span class="cert-date">May 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">projects</span></div>
+
+    <!-- PROJECT 1 -->
+    <div class="project">
+      <div class="project-head">
+        <h3>SSH Brute-Force Detection — Windows OpenSSH + Wazuh</h3>
+        <div class="tag-row"><span class="tag">Wazuh</span><span class="tag">Windows OpenSSH</span><span class="tag">Kali Linux</span><span class="tag">MITRE T1110</span></div>
+      </div>
+      <div class="project-body">
+        <p>Built a small SOC home lab to detect SSH brute-force attacks against a Windows 10 machine running OpenSSH
+        Server, using Wazuh for log correlation and custom rule authoring.</p>
+
+        <div class="flow-steps">
+          <span>Wazuh Server</span><span class="arrow">→</span>
+          <span>Windows 10 + OpenSSH (target)</span><span class="arrow">→</span>
+          <span>Kali Linux (attacker)</span>
+        </div>
+
+        <p><strong style="color:#eafff2;font-weight:600;">Objective:</strong> detect repeated SSH authentication failures and raise a high-severity alert on a brute-force pattern.</p>
+
+
+        <p><strong style="color:#eafff2;font-weight:600;">Custom rule — 100100 (SSH failed login):</strong> filters Windows events generated specifically by <code>sshd.exe</code>, inheriting from base rule 60122.</p>
+        <div class="rule-box">&lt;<span class="tag-x">rule</span> <span class="attr">id</span>="100100" <span class="attr">level</span>="5"&gt;
+    &lt;<span class="tag-x">if_sid</span>&gt;60122&lt;/<span class="tag-x">if_sid</span>&gt;
+    &lt;<span class="tag-x">field</span> <span class="attr">name</span>="win.eventdata.processName"&gt;sshd.exe&lt;/<span class="tag-x">field</span>&gt;
+    &lt;<span class="tag-x">description</span>&gt;
+        SSH (Windows OpenSSH): failed password attempt for user $(win.eventdata.targetUserName)
+    &lt;/<span class="tag-x">description</span>&gt;
+    &lt;<span class="tag-x">mitre</span>&gt;&lt;<span class="tag-x">id</span>&gt;T1110&lt;/<span class="tag-x">id</span>&gt;&lt;/<span class="tag-x">mitre</span>&gt;
+    &lt;<span class="tag-x">group</span>&gt;authentication_failed,sshd,&lt;/<span class="tag-x">group</span>&gt;
+&lt;/<span class="tag-x">rule</span>&gt;</div>
+
+        <p><strong style="color:#eafff2;font-weight:600;">Custom rule — 100101 (SSH brute-force):</strong> correlates repeated 100100 hits against the same username within a time window.</p>
+        <div class="rule-box">&lt;<span class="tag-x">rule</span> <span class="attr">id</span>="100101" <span class="attr">level</span>="10" <span class="attr">frequency</span>="6" <span class="attr">timeframe</span>="120"&gt;
+    &lt;<span class="tag-x">if_matched_sid</span>&gt;100100&lt;/<span class="tag-x">if_matched_sid</span>&gt;
+    &lt;<span class="tag-x">same_field</span>&gt;win.eventdata.targetUserName&lt;/<span class="tag-x">same_field</span>&gt;
+    &lt;<span class="tag-x">description</span>&gt;
+        SSH (Windows OpenSSH) brute force: multiple failed password attempts for user $(win.eventdata.targetUserName)
+    &lt;/<span class="tag-x">description</span>&gt;
+    &lt;<span class="tag-x">mitre</span>&gt;&lt;<span class="tag-x">id</span>&gt;T1110&lt;/<span class="tag-x">id</span>&gt;&lt;/<span class="tag-x">mitre</span>&gt;
+    &lt;<span class="tag-x">group</span>&gt;authentication_failures,sshd,&lt;/<span class="tag-x">group</span>&gt;
+&lt;/<span class="tag-x">rule</span>&gt;</div>
+
+        <p>Triggers on 6 failed logins, against the same username, within 120 seconds.</p>
+
+        <img src="images/custom_rule.png" alt="local_rules.xml showing both custom rules" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Attack simulation:</strong> launched repeated failed SSH login attempts from Kali Linux against the Windows target.</p>
+        <ul>
+          <li>Rule 100100 fired on each individual failed password attempt.</li>
+          <li>Rule 100101 fired as the high-severity correlated brute-force alert.</li>
+        </ul>
+
+        <img src="images/kali_ssh.png" alt="Kali Linux terminal running SSH brute-force attempt" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <img src="images/dashboard.png" alt="Wazuh alert detail for rule 100101" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">MITRE ATT&amp;CK mapping:</strong> T1110 — Brute Force, covering password-guessing attacks against remote services such as SSH.</p>
+
+        <p><strong style="color:#eafff2;font-weight:600;">Key takeaways:</strong></p>
+        <ul class="checklist">
+          <li>Understanding Wazuh rule inheritance via <code>if_sid</code></li>
+          <li>Event correlation using <code>frequency</code> and <code>timeframe</code></li>
+          <li>Customizing <code>local_rules.xml</code></li>
+          <li>Detecting Windows OpenSSH attacks instead of relying on generic failed-logon rules</li>
+          <li>Mapping detections to the MITRE ATT&amp;CK framework</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="project">
+      <div class="project-head">
+        <h3>SSH Auth Log Analyzer — Brute-Force Flagging Script</h3>
+        <div class="tag-row"><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Matplotlib</span><span class="tag">Regex</span><span class="tag">Log Analysis</span></div>
+      </div>
+      <div class="project-body">
+        <p>A standalone Python script that parses SSH <code>auth.log</code> files to identify brute-force activity,
+        built as a companion to the Wazuh home lab for offline log review and reporting.</p>
+
+        <p><strong style="color:#eafff2;font-weight:600;">Approach:</strong></p>
+        <ul>
+          <li>Regex-based extraction of timestamps and source IP addresses from raw auth log entries.</li>
+          <li>Sliding-window logic to flag any IP address exceeding a configurable failed-attempt threshold within a set time window.</li>
+          <li>Aggregation of results into a structured CSV report for further review.</li>
+          <li>Visualization of the top offending IP addresses using Pandas and Matplotlib.</li>
+        </ul>
+
+        <img src="images/py_code.png" alt="Python script for SSH log analysis and brute-force flagging" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Key takeaways:</strong></p>
+        <ul class="checklist">
+          <li>Parsing unstructured log data with regular expressions</li>
+          <li>Implementing sliding-window detection logic in Python</li>
+          <li>Working with Pandas for data aggregation and CSV export</li>
+          <li>Building simple visualizations with Matplotlib to summarize findings</li>
+        </ul>
+
+        <img src="images/csv.png" alt="Generated CSV report of flagged brute-force IP addresses" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <img src="images/top_ips.png" alt="Matplotlib chart of top offending IP addresses" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+      </div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="project">
+      <div class="project-head">
+        <h3>Passive Reconnaissance — OSINT-Based Target Profiling</h3>
+        <div class="tag-row"><span class="tag">WHOIS/DNS</span><span class="tag">Google Dorking</span><span class="tag">Metagoofil</span><span class="tag">Maltego</span><span class="tag">Gau &amp; Katana</span></div>
+      </div>
+      <div class="project-body">
+        <p>Skill Horizon internship task: gathering intelligence about the target (<strong style="color:#eafff2;">hackerone.com</strong>)
+        without directly interacting with its systems, across six sub-tasks.</p>
+
+        <p><strong style="color:#eafff2;font-weight:600;">1. Domain Info Gathering</strong> — WHOIS, <code>nslookup</code>, and <code>dig</code> to pull registrar, name server, and DNS record details.</p>
+        <img src="images/whois_hackerone.png" alt="WHOIS lookup output for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/nslookup_hackerone.png" alt="nslookup output for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/dig_hackerone.png" alt="dig output for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">2. Google Dorking</strong> — advanced search operators to surface exposed files, directories, and login portals.</p>
+        <img src="images/Google%20dork.png" alt="Google dorking search results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">3. Email &amp; Employee Info Gathering</strong> — enumerating publicly associated email addresses/employee footprint.</p>
+        <img src="images/email_enum.png" alt="Email and employee enumeration output" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">4. Metadata Extraction</strong> — <code>exiftool</code> and Metagoofil to pull hidden metadata from publicly available documents.</p>
+        <img src="images/exiftool.png" alt="Exiftool metadata extraction output" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/metagoofil_hackerone.png" alt="Metagoofil document metadata extraction for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">5. Social Media Info Gathering</strong> — Maltego used to graph relationships between the target's public entities.</p>
+        <img src="images/maltego.png" alt="Maltego relationship graph" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/maltego%20(2).png" alt="Maltego relationship graph, expanded view" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">6. URL Collection &amp; JS Filtering</strong> — <code>gau</code> and <code>katana</code> to crawl historical/live URLs and isolate JavaScript files for review.</p>
+        <img src="images/Gau.png" alt="Gau URL collection output" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/Katana.png" alt="Katana crawler output" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Key takeaways:</strong></p>
+        <ul class="checklist">
+          <li>Difference between passive and active recon, and when each is appropriate</li>
+          <li>Building a target profile purely from open-source information</li>
+          <li>Extracting metadata and hidden details from public documents and images</li>
+          <li>Using graph-based tools (Maltego) to visualize OSINT relationships</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROJECT 4 -->
+    <div class="project">
+      <div class="project-head">
+        <h3>Subdomain Enumeration — Multi-Target Attack Surface Mapping</h3>
+        <div class="tag-row"><span class="tag">Amass</span><span class="tag">Subfinder</span><span class="tag">Assetfinder</span><span class="tag">Attack Surface Mapping</span></div>
+      </div>
+      <div class="project-body">
+        <p>Enumerated subdomains across three separate targets using the same three-tool methodology each time, to
+        cross-check coverage between passive/active (Amass), multi-source (Subfinder), and certificate/API-based (Assetfinder) discovery.</p>
+
+        <p><strong style="color:#eafff2;font-weight:600;">Target — hackerone.com:</strong></p>
+        <img src="images/amass_hackerone.png" alt="Amass subdomain enumeration for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/subfinder_hackerone.png" alt="Subfinder subdomain enumeration for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/assetfinder_hackerone.png" alt="Assetfinder subdomain enumeration for hackerone.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Target 1 — yahoo.com:</strong> <code>amass enum -d yahoo.com -o yahoo_amass.txt</code> · <code>subfinder -d yahoo.com -o yahoo_subs.txt</code> · <code>assetfinder --subs-only yahoo.com &gt; yahoo_asset.txt</code></p>
+        <img src="images/yahoo_amass.png" alt="Amass subdomain enumeration for yahoo.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/yahoo_subs.png" alt="Subfinder subdomain enumeration for yahoo.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/yahoo_asset.png" alt="Assetfinder subdomain enumeration for yahoo.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Target 2 — bugcrowd.com:</strong> <code>amass enum -d bugcrowd.com -o bugcrowd_amass.txt</code> · <code>subfinder -d bugcrowd.com -o bugcrowd_subs.txt</code> · <code>assetfinder --subs-only bugcrowd.com &gt; bugcrowd_asset.txt</code></p>
+        <img src="images/bugcrowd_amass.png" alt="Amass subdomain enumeration for bugcrowd.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/bugcrowd_subs.png" alt="Subfinder subdomain enumeration for bugcrowd.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/bugcrowd_asset.png" alt="Assetfinder subdomain enumeration for bugcrowd.com" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Key takeaways:</strong></p>
+        <ul class="checklist">
+          <li>Why multiple enumeration tools give better subdomain coverage than one</li>
+          <li>Comparing passive/active (Amass), multi-source (Subfinder), and cert/API-based (Assetfinder) discovery methods</li>
+          <li>Organizing per-target output into a repeatable, documented workflow</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROJECT 5 -->
+    <div class="project">
+      <div class="project-head">
+        <h3>Active Reconnaissance — Host &amp; Service Enumeration</h3>
+        <div class="tag-row"><span class="tag">Nmap</span><span class="tag">Dirb</span><span class="tag">Nikto</span><span class="tag">WhatWeb</span><span class="tag">Kali Linux</span></div>
+      </div>
+      <div class="project-body">
+        <p>Direct enumeration of a lab target VM (Metasploitable2, <code>192.168.56.101</code>) — moving from passive
+        recon into live host, port, and service discovery.</p>
+
+        <p><strong style="color:#eafff2;font-weight:600;">Host discovery:</strong> ping-sweep / <code>-sn</code> host detection on the lab subnet.</p>
+        <img src="images/sn_HOST.png" alt="Nmap -sn host discovery scan" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Port &amp; service scanning:</strong> SYN scan, full-port service/version detection, common-ports script scan, and OS detection.</p>
+        <img src="images/NMAP_SYN_SCAN.png" alt="Nmap SYN scan results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/nmap_all_ports-sV.png" alt="Nmap all-ports service version scan" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/COMMON_PORTS_sV_O_SCRIPT.png" alt="Nmap common ports scan with version and OS scripts" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/OS_script_scan.png" alt="Nmap OS detection script scan" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/NSE_ALL_PORTS.png" alt="Nmap NSE script scan across all ports" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Web enumeration:</strong> directory brute-forcing, vulnerability scanning, and web-tech fingerprinting on the discovered web service.</p>
+        <img src="images/DIRB.png" alt="Dirb directory brute-force results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/NIKTO.png" alt="Nikto web vulnerability scan results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/WHAT_WEB.png" alt="WhatWeb technology fingerprinting results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Key takeaways:</strong></p>
+        <ul class="checklist">
+          <li>Structuring an Nmap scan for efficiency vs. thoroughness (host discovery → targeted scan → full scripts)</li>
+          <li>Reading and interpreting service/version fingerprints and NSE script output</li>
+          <li>Chaining directory brute-force + vuln scan + tech fingerprinting into one enumeration pass</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PROJECT 6 -->
+    <div class="project">
+      <div class="project-head">
+        <h3>Burp Suite Setup &amp; Automated Scanning Workflow</h3>
+        <div class="tag-row"><span class="tag">Burp Suite</span><span class="tag">Scope Configuration</span><span class="tag">Nuclei</span><span class="tag">ZAP</span><span class="tag">Wappalyzer</span></div>
+      </div>
+      <div class="project-body">
+        <p><strong style="color:#eafff2;font-weight:600;">Burp Suite install &amp; scope configuration:</strong> configured browser proxy and request interception, then
+        restricted testing scope to in-scope hosts only.</p>
+        <img src="images/request.png" alt="Burp Suite intercepted request" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/request%20forward.png" alt="Burp Suite forwarding an intercepted request" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/added%20scope.png" alt="Burp Suite target scope configuration" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Automated scanning pipeline:</strong> chained Nmap, Nikto, Dirb, Nuclei, WhatWeb, Wappalyzer, and OWASP ZAP into a
+        repeatable scan-and-report workflow against a lab target.</p>
+        <img src="images/nmap_scan.png" alt="Nmap scan as part of the automated pipeline" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/niKto.png" alt="Nikto scan as part of the automated pipeline" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/DirB.png" alt="Dirb scan as part of the automated pipeline" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/nuclei.png" alt="Nuclei template-based vulnerability scan results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/wappalyzer.png" alt="Wappalyzer technology fingerprinting results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/what%20web.png" alt="WhatWeb technology fingerprinting results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+        <img src="images/ZAP.png" alt="OWASP ZAP automated scan results" style="width:100%;border:1px solid var(--line);border-radius:4px;margin:14px 0 20px;">
+
+        <p><strong style="color:#eafff2;font-weight:600;">Key takeaways:</strong></p>
+        <ul class="checklist">
+          <li>Setting up Burp Suite scope correctly to avoid testing out-of-scope assets</li>
+          <li>Proxy configuration and request interception/forwarding fundamentals</li>
+          <li>Value of chaining recon + scanning tools (Nmap → Nikto/Dirb → Nuclei/ZAP) into one automated pass</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">education</span></div>
+    <div class="edu-item">
+      <span class="yr">2021 – 2024</span>
+      <span class="what">B.Com with Computer Applications — Sasurie College of Arts &amp; Science</span>
+      <span class="score">CGPA: 7.8 / 10</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">contact</span></div>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="label">Phone</div>
+        <div class="value">+91 6385836130</div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Email</div>
+        <div class="value">harish240525@gmail.com</div>
+      </div>
+      <div class="contact-card">
+        <div class="label">LinkedIn</div>
+        <div class="value"><a href="https://linkedin.com/in/harishsec" target="_blank">linkedin.com/in/harishsec</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="label">Portfolio</div>
+        <div class="value"><a href="https://mintgoldfish97.github.io/Portfolio/" target="_blank">mintgoldfish97.github.io/Portfolio/</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  built in a terminal, deployed on GitHub Pages — © Harish S
+</footer>
+
+</body>
+</html>
